@@ -1,4 +1,4 @@
-import {test} from '@playwright/test'
+import {expect, test} from '@playwright/test'
 
 //Hooks
 test.beforeEach(async({page}) => {
@@ -71,4 +71,15 @@ test('Locating Parent elements', async({page}) => {
 
     //XPath Parent locator can be used
     await page.locator(':text-is("Using the Grid")').locator('..').getByRole('textbox', {name: "Email"}).click()
+})
+
+test('Reusing the locators', async({page}) => {
+const basicForm = page.locator('nb-card').filter({hasText: "Basic Form"})
+const emailField = basicForm.getByRole('textbox', {name: "Email"})
+
+    await emailField.fill('test@test.com')
+    await basicForm.locator('nb-checkbox').click()
+    await basicForm.getByRole('button').click()
+
+    await expect(emailField).toHaveValue('test@test.com')
 })
