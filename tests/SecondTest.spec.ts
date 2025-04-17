@@ -58,3 +58,8 @@ test('Locating Clild elements', async({page}) => {
 
     await page.locator('nb-card').nth(3).getByRole('button').click()
 })
+
+test('Locating Parent elements', async({page}) => {
+    await page.locator('nb-card', {hasText: "Using the Grid"}).getByRole('textbox', {name: "Email"}).click()
+    await page.locator('nb-card', {has: page.locator('#inputEmail1')}).getByRole('textbox', {name: "Email"}).click()
+})
