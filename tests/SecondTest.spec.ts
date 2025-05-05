@@ -1,4 +1,5 @@
 import {expect, test} from '@playwright/test'
+import { basename } from 'path'
 
 //Hooks
 test.beforeEach(async({page}) => {
@@ -84,7 +85,7 @@ test('Reusing the locators', async({page}) => {
     await expect(emailField).toHaveValue('test@test.com')
 })
 
-test('extracting values', async({page}) => {
+test('Extracting values', async({page}) => {
     //single text value
     const basicForm = page.locator('nb-card').filter({hasText: "Basic Form"})
     const buttonText = await basicForm.locator('button').textContent()
@@ -102,4 +103,22 @@ test('extracting values', async({page}) => {
 
     const placeholderValue = await emailField.getAttribute('placeholder')
     expect(placeholderValue).toEqual('Email')
+})
+
+test('Assertions', async({page}) => {
+    const basicFormButton = page.locator('nb-card').filter({hasText: "Basic Form"}).locator('button')
+    
+    //General assertions
+    const value = 5
+    expect(value).toEqual(5) //will not wait
+
+    const text = await basicFormButton.textContent()
+    expect(text).toEqual("Submit")
+
+    //Lovator assertion
+    await expect(basicFormButton).toHaveText('Submit') //will wait for 5 sec for an element to show
+
+    //Soft assertion
+    await expect.soft(basicFormButton).toHaveText('Submit5') //will continue execution after 5 sec to wait
+    await basicFormButton.click()
 })
