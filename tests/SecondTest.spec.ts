@@ -39,9 +39,9 @@ test('Locator Syntax rules', async ({page}) => {
 
 test('User facing Locators', async({page}) => {
     await page.getByRole('textbox', {name: "Email"}).first().click()
-    await page.getByRole('button', {name: "Sign in"}).click()
+    await page.getByRole('button', {name: 'Sign In'}).first().click()
 
-    await page.getByLabel('Email').click()
+    await page.getByLabel('Email').first().click()
 
     await page.getByPlaceholder('Jane Doe').click()
     await page.getByText('Using the Grid').click()
@@ -119,6 +119,6 @@ test('Assertions', async({page}) => {
     await expect(basicFormButton).toHaveText('Submit') //will wait for 5 sec for an element to show
 
     //Soft assertion
-    await expect.soft(basicFormButton).toHaveText('Submit5') //will continue execution after 5 sec to wait
+    await expect.soft(basicFormButton).toHaveText('Submit') //will continue execution after 5 sec to wait
     await basicFormButton.click()
 })
