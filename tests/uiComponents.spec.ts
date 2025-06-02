@@ -54,3 +54,35 @@ test('Checkboxes', async({page}) => {
         expect(await box.isChecked()).toBeFalsy() // Assert that the checkbox is unchecked
     }
 })
+
+test('lists and dropdowns', async({page}) => {
+    const dropDownMenu = page.locator('ngx-header nb-select') // Locate the dropdown menu in the header
+    await dropDownMenu.click() // Open the dropdown menu
+
+    page.getByRole('list') // Get the list of options in the dropdown UL Tag
+    page.getByRole('listitem') // Get each list item in the dropdown LI Tag
+
+    //const optionsList = page.getByRole('list').locator('nb-option') // Get the list of options in the dropdown
+    const optionsList = page.locator('nb-option-list nb-option') // Get the list of options in the dropdown
+    await expect(optionsList).toHaveText(["Light", "Dark", "Cosmic", "Corporate"]) // Assert that the dropdown contains the expected options
+    await optionsList.filter({hasText: 'Cosmic'}).click() // Click on the 'Cosmic' option
+
+    const header = page.locator('nb-layout-header') // Locate the header
+    await expect(header).toHaveCSS('background-color', 'rgb(50, 50, 89)') // Assert that the header background color changes to Cosmic theme color
+
+    const colors = {
+        Light: 'rgb(255, 255, 255)',
+        Dark: 'rgb(34, 43, 69)',
+        Cosmic: 'rgb(50, 50, 89)',
+        Corporate: 'rgb(255, 255, 255)'
+    }
+
+    await dropDownMenu.click()
+    for(const color in colors) {
+        await optionsList.filter({hasText: color}).click() // Click on each option in the dropdown
+        await expect(header).toHaveCSS('background-color', colors[color]) // Assert that the header background color changes accordingly
+        if(color !== 'Corporate') {
+            await dropDownMenu.click()  // Reopen the dropdown menu for the next iteration
+        }
+    }
+})
