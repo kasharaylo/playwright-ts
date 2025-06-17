@@ -132,4 +132,25 @@ test('Web Tables', async({page}) => {
     await page.locator('input-editor').getByPlaceholder('E-mail').fill('test@test.com') // Fill the E-mail input field with a new value
     await page.locator('.nb-checkmark').click()
     await expect(targetRowById.locator('td').nth(5)).toHaveText('test@test.com') // Assert that the email has been updated
+
+    // test filter of the table
+    const ages = ["20", "30", "40", "200"]
+
+    for(let age of ages) {
+        await page.locator('input-filter').getByPlaceholder('Age').clear()
+        await page.locator('input-filter').getByPlaceholder('Age').fill(age)
+        await page.waitForTimeout(500) // Wait for the filter to apply
+        const ageRows = page.locator('tbody tr')
+
+        for(let row of await ageRows.all()) {
+            const cellValue = await row.locator('td').last().textContent() // Get the value of the Age column
+            
+            if(age == "200") {
+                const tableText = await page.getByRole('table').textContent()
+                expect(tableText).toContain('No data found') // Assert that no data is found for age 200
+            } else {
+                expect(cellValue).toEqual(age)
+            }
+        }
+    }
 })
