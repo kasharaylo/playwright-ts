@@ -111,3 +111,25 @@ test('Dialog boxes', async({page}) => {
     await page.getByRole('table').locator('tr', {hasText: "mdo@gmail.com"}).locator('.nb-trash').click()
     await expect(page.locator('table tr').first()).not.toHaveText('mdo@gmail.com')
 })
+
+test('Web Tables', async({page}) => {
+    await page.getByText('Tables & Data').click()
+    await page.getByText('Smart Table').click()
+
+    // get  the row by any text in the row
+    const targetRow = page.getByRole('row', {name: 'twitter@outlook.com'})
+    await targetRow.locator('.nb-edit').click() // Click the edit button in the row
+    await page.locator('input-editor').getByPlaceholder('Age').clear() // Clear the Age input field
+    await page.locator('input-editor').getByPlaceholder('Age').fill('35') // Fill the Age input field with a new value
+    await page.locator('.nb-checkmark').click()
+
+    // get the row based on the value in the specific column
+    await page.locator('.ng2-smart-pagination-nav').getByText('2').click() // Navigate to the second page
+    const targetRowById = page.getByRole('row', {name: '11'}).filter({has: page.locator('td').nth(1).getByText('11')}) // Get the row with ID 11
+    await targetRowById.locator('.nb-edit').click() // Click the edit button in the row
+
+    await page.locator('input-editor').getByPlaceholder('E-mail').clear()
+    await page.locator('input-editor').getByPlaceholder('E-mail').fill('test@test.com') // Fill the E-mail input field with a new value
+    await page.locator('.nb-checkmark').click()
+    await expect(targetRowById.locator('td').nth(5)).toHaveText('test@test.com') // Assert that the email has been updated
+})
