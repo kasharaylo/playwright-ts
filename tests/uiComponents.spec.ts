@@ -154,3 +154,28 @@ test('Web Tables', async({page}) => {
         }
     }
 })
+
+test('Datepicker', async({page}) => {
+    await page.getByText('Forms').click()
+    await page.getByText('Datepicker').click()
+
+    const calendarInputField = page.getByPlaceholder('Form Picker') // Locate the datepicker input field
+    await calendarInputField.click() // Open the datepicker
+
+    let date = new Date() // Get the current date
+    date.setDate(date.getDate() + 200) // Set the date to tomorrow
+    const expctDate = date.getDate().toString() // Get the expected date as a string
+    const exactMonthShort = date.toLocaleDateString('En-Us', {month: 'short'}) // Get the short month name
+    const exactMonthLong = date.toLocaleDateString('En-Us', {month: 'long'}) // Get the long month name
+    const exactYear = date.getFullYear() // Get the year
+
+    let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent() // Get the current month and year from the calendar
+    const exactMonthAndYear = ` ${exactMonthLong} ${exactYear} ` // Combine the long month and year
+    while(!calendarMonthAndYear.includes(exactMonthAndYear)) { // Loop until the calendar shows the expected month and year
+        await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click() 
+        calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+    }
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText(expctDate, {exact:true}).click() // Click on the day cell in the datepicker
+    await expect(calendarInputField).toHaveValue(`${exactMonthShort} ${expctDate}, ${exactYear}`) // Assert that the input field has the expected date value
+})
