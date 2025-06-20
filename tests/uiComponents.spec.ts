@@ -179,3 +179,31 @@ test('Datepicker', async({page}) => {
     await page.locator('[class="day-cell ng-star-inserted"]').getByText(expctDate, {exact:true}).click() // Click on the day cell in the datepicker
     await expect(calendarInputField).toHaveValue(`${exactMonthShort} ${expctDate}, ${exactYear}`) // Assert that the input field has the expected date value
 })
+
+test('Sliders by attributes' , async({page}) => {
+    // update the attributes
+    const tempAttribute = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+    await tempAttribute.evaluate((node) => {
+        node.setAttribute('cx', '232.600') // Set the x-coordinate of the center of the circle
+        node.setAttribute('cy', '232.600') // Set the y-coordinate of the center of the circle
+    })
+    await tempAttribute.click() // click over the temperature slider
+})
+
+test('Sliders by coordinates', async({page}) => {
+    //simulate the mouse movement
+    const temperatureSlider = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger')
+    await temperatureSlider.scrollIntoViewIfNeeded() // Scroll the temperature slider into view
+
+    const box = await temperatureSlider.boundingBox() // Get the bounding box of the temperature slider
+    const x = box.x + box.width / 2 // Calculate the center coordinates of the slider
+    const y = box.y + box.height / 2 // Calculate the center coordinates of the slider
+
+    await page.mouse.move(x, y) // Move the mouse to the center of the slider
+    await page.mouse.down() // Press down the mouse button
+    await page.mouse.move(x + 100, y) // Move the mouse to the right
+    await page.mouse.move(x + 100, y + 100 ) // Move the mouse down
+    await page.mouse.up() // Release the mouse button
+
+    await expect(temperatureSlider).toContainText('30') // Assert that the temperature slider displays the expected value of 30
+})
