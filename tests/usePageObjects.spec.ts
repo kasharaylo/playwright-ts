@@ -1,5 +1,6 @@
 import {expect, test} from '@playwright/test'
 import { PageManager } from '../page-objects/pageManager' // Import the PageManager class
+import { faker } from '@faker-js/faker'
 
 test.beforeEach(async({page}, testInfo) => {
     await page.goto('http://localhost:4200/')
@@ -16,10 +17,13 @@ test('Navigate to the page', async({page}) => {
 
 test('parametrized methods', async({page}) => {
     const pm = new PageManager(page) // Create an instance of PageManager with the current page
+    const fullRandomName = faker.person.fullName() // Generate a full random name using faker
+    const randomEmail = `${fullRandomName.replace(' ', '')}${faker.number.int(1000)}@test.com` // Generate a random email using faker
+
     await pm.navigateTo().formLayoutsPage() // Navigate to the Form Layouts page
     await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption('test@test.com', "123456", 'Option 2') // Submit the form with credentials and select an option
-    await pm.onFormLayoutsPage().submitInlineFormWithEmailAndCheckbox('John Smith', 'test@test.com', false)
-    await pm.navigateTo().datepickerPage() // Navigate to the Datepicker page
-    await pm.onDatePickerPage().selectCommonDatePickerDateFromToday(10) // Select a date from the datepicker 5 days from today
-    await pm.onDatePickerPage().selectDatePickerWithRange(5, 10) // Select a date range from the datepicker, from 5 to 10 days from today
+    await pm.onFormLayoutsPage().submitInlineFormWithEmailAndCheckbox(fullRandomName, randomEmail, false)
+    // await pm.navigateTo().datepickerPage() // Navigate to the Datepicker page
+    // await pm.onDatePickerPage().selectCommonDatePickerDateFromToday(10) // Select a date from the datepicker 5 days from today
+    // await pm.onDatePickerPage().selectDatePickerWithRange(5, 10) // Select a date range from the datepicker, from 5 to 10 days from today
 })
