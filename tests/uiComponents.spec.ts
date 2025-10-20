@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test'
 
 test.describe.configure({mode: 'parallel'}) // Configure tests in this file to run in parallel
-test.describe.configure({mode: 'serial'}) // Configure tests in this file to run in serial
+//test.describe.configure({mode: 'serial'}) // Configure tests in this file to run in serial
 
 test.beforeEach(async({page}, testInfo) => {
     await page.goto('http://localhost:4200/')
@@ -26,7 +26,7 @@ test.describe.only('Form Layouts page', () => {
 
         // Generic Assertions
         const imputValue = await usingTheGridEmailInput.inputValue()
-        await expect(imputValue).toEqual('email2@email.com1')
+        await expect(imputValue).toEqual('email2@email.com')
 
         // Locator Assertions
         await expect(usingTheGridEmailInput).toHaveValue('email2@email.com')
