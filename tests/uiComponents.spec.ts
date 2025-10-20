@@ -1,5 +1,8 @@
 import {expect, test} from '@playwright/test'
 
+test.describe.configure({mode: 'parallel'}) // Configure tests in this file to run in parallel
+test.describe.configure({mode: 'serial'}) // Configure tests in this file to run in serial
+
 test.beforeEach(async({page}, testInfo) => {
     await page.goto('http://localhost:4200/')
 })
@@ -19,7 +22,7 @@ test.describe.only('Form Layouts page', () => {
         const usingTheGridEmailInput = page.locator('nb-card', {hasText: "Using the Grid"}).getByRole('textbox', {name: "Email"})
         await usingTheGridEmailInput.fill('email@email.com')
         await usingTheGridEmailInput.clear()
-        await usingTheGridEmailInput.pressSequentially('email2@email.com', {delay: 200})
+        await usingTheGridEmailInput.pressSequentially('email2@email.com')
 
         // Generic Assertions
         const imputValue = await usingTheGridEmailInput.inputValue()
