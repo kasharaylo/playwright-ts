@@ -3,7 +3,7 @@ import { PageManager } from '../page-objects/pageManager' // Import the PageMana
 import { faker } from '@faker-js/faker'
 
 test.beforeEach(async({page}, testInfo) => {
-    await page.goto('http://localhost:4200/')
+    await page.goto('/')
 })
 
 test('Navigate to the page', async({page}) => {
@@ -21,7 +21,7 @@ test('parametrized methods', async({page}) => {
     const randomEmail = `${fullRandomName.replace(' ', '')}${faker.number.int(1000)}@test.com` // Generate a random email using faker
 
     await pm.navigateTo().formLayoutsPage() // Navigate to the Form Layouts page
-    await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption('test@test.com', "123456", 'Option 2') // Submit the form with credentials and select an option
+    await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption(process.env.USERNAME, process.env.PASSWORD, 'Option 2') // Submit the form with credentials and select an option
     await page.screenshot({path: `screenshots/formlayout.png`})
     const buffer = await page.screenshot() // Capture a screenshot of the current page
     console.log(buffer.toString('base64')) // Log the screenshot buffer as a base64 string

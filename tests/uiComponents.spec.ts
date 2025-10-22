@@ -4,7 +4,7 @@ test.describe.configure({mode: 'parallel'}) // Configure tests in this file to r
 //test.describe.configure({mode: 'serial'}) // Configure tests in this file to run in serial
 
 test.beforeEach(async({page}, testInfo) => {
-    await page.goto('http://localhost:4200/')
+    await page.goto('/')
 })
 
 test.describe.only('Form Layouts page', () => {

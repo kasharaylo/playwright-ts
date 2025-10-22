@@ -10,3 +10,5 @@
 /.angular/
 # Screenshots
 /screenshots/
+# ENV
+/.env

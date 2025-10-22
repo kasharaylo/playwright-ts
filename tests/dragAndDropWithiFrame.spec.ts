@@ -1,8 +1,9 @@
-import {test, expect} from '@playwright/test';
+import {expect} from '@playwright/test';
+import {test} from '../test-options';
 
-test('drag and drop within an iframe', async ({page}) => {
+test('drag and drop within an iframe', async ({page, globalsQaURL}) => {
     // Navigate to the page with the iframe
-    await page.goto('https://www.globalsqa.com/demo-site/draganddrop/')
+    await page.goto(globalsQaURL, { timeout: 30000 })
 
     // Wait for the iframe to load and get its content frame
     const frame = await page.frameLocator('[rel-title="Photo Manager"] iframe')
