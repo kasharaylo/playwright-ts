@@ -7,7 +7,7 @@ test.beforeEach(async({page}, testInfo) => {
     await page.goto('/')
 })
 
-test.describe.only('Form Layouts page', () => {
+test.describe('Form Layouts page', () => {
     test.describe.configure({retries: 2}) // Configure retries for this describe block
 
     test.beforeEach(async({page}) => {
