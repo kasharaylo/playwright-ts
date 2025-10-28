@@ -6,7 +6,7 @@ test.beforeEach(async({page}, testInfo) => {
     await page.goto('/')
 })
 
-test('Navigate to the page', async({page}) => {
+test('Navigate to the page @smoke @regression', async({page}) => {
     const pm = new PageManager(page) // Create an instance of PageManager with the current page
     await pm.navigateTo().formLayoutsPage() // Call the method to navigate to the Form Layouts page
     await pm.navigateTo().datepickerPage() // Call the method to navigate to the Datepicker page
@@ -15,7 +15,7 @@ test('Navigate to the page', async({page}) => {
     await pm.navigateTo().tooltipPage() // Call the method to navigate to the Tooltip page
 })
 
-test('parametrized methods', async({page}) => {
+test('parametrized methods @smoke', async({page}) => {
     const pm = new PageManager(page) // Create an instance of PageManager with the current page
     const fullRandomName = faker.person.fullName() // Generate a full random name using faker
     const randomEmail = `${fullRandomName.replace(' ', '')}${faker.number.int(1000)}@test.com` // Generate a random email using faker
