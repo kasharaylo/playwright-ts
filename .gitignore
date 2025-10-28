@@ -12,3 +12,6 @@
 /screenshots/
 # ENV
 /.env
+# Allure results
+/allure-results/
+/allure-report/

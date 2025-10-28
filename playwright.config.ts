@@ -12,7 +12,13 @@ export default defineConfig<TestOptions>({
   },
 
   retries: 1, 
-  reporter: 'html',
+  // reporter: 'html',
+  // reporter: 'list',
+  reporter: [
+    ['json', { outputFile: 'test-results/test-results.json' }],
+    ['junit', { outputFile: 'test-results/junit.xml' }],
+    ["allure-playwright"]
+  ],
   
   use: {
     globalsQaURL: 'https://globalsqa.com/demo-site/draganddrop',
