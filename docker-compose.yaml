@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  playwright-test:
+    image: playwright-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./plawright-report/:/app/plawright-report/
+      - ./test-results/:/app/test-results/

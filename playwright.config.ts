@@ -64,4 +64,9 @@ export default defineConfig<TestOptions>({
       use: { ...devices['iPhone 12'] },
     }
   ],
+// Start the web server before running the tests
+  webServer: {
+    command: 'npm run start',
+    url: 'http://localhost:4200'
+  }
 });
