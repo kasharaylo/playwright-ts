@@ -32,3 +32,9 @@ test('parametrized methods @smoke', async({page}) => {
     // await pm.onDatePickerPage().selectCommonDatePickerDateFromToday(10) // Select a date from the datepicker 5 days from today
     // await pm.onDatePickerPage().selectDatePickerWithRange(5, 10) // Select a date range from the datepicker, from 5 to 10 days from today
 })
+
+test.only('Testing with argos CI', async({page}) => {
+    const pm = new PageManager(page) // Create an instance of PageManager with the current page
+    await pm.navigateTo().formLayoutsPage() // Call the method to navigate to the Form Layouts page
+    await pm.navigateTo().datepickerPage() // Call the method to navigate to the Datepicker page
+})
